@@ -1,10 +1,12 @@
-# 1
+# summation function
 
 def summation(n, term, next):
     total, k = 0, 1
     while k <= n:
         total, k = total + term(k), next(k)
     return total
+
+# 1
 
 def cube(k):
     return pow(k, 3)
