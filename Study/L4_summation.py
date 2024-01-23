@@ -5,6 +5,7 @@ def summation(n, term, next):
         k = next(k)
     return sum
 
+
 def sum_cubes(n):
     """
     >>> sum_cubes(1)
@@ -12,7 +13,8 @@ def sum_cubes(n):
     >>> sum_cubes(3)
     14
     """
-    return summation(n, lambda x: x ** 2, lambda x: x + 1)
+    return summation(n, lambda x: x**2, lambda x: x + 1)
+
 
 def pi_sum(n):
     """
