@@ -1,11 +1,17 @@
 # summation function
+import doctest
 
 def summation(n, term, next):
+    '''
+    >>> sum_cubes(3)
+    36
+    '''
     total, k = 0, 1
     while k <= n:
         total, k = total + term(k), next(k)
     return total
 
+doctest.testmod()
 # 1
 
 def cube(k):
