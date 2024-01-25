@@ -15,3 +15,15 @@ def find_zero_interative(lowest, highest, func):
             return lowest
         lowest += 1
     return lowest
+
+
+def find_zero_mid(lowest, highest, func):
+    if lowest > highest:
+        return None
+    middle = (lowest + highest) // 2
+    if func(middle) == 0:
+        return middle
+    elif func(middle) < 0:
+        return find_zero_mid(middle + 1, highest, func)
+    else:
+        return find_zero_mid(lowest, middle - 1, func)
