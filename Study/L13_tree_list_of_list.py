@@ -26,6 +26,23 @@ def is_leaf(tree):
     return len(children(tree)) == 0
 
 
+#
+
+
+def set_label(tree, label):
+    tree[0] = label
+
+
+def set_children(tree, children=[]):
+    return [label] + list(children)
+
+
+def double(tree):
+    set_label(tree, label(tree) * 2)
+    for c in children(tree):
+        double(c)
+
+
 if __name__ == "__main__":
     import doctest
 

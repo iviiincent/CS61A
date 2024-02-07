@@ -17,6 +17,10 @@ def is_leaf(t):
     return children(t) == []
 
 
+def set_label(tree, label):
+    tree[0] = label
+
+
 def count_leaves(t):
     """
     Return the number of leaf nodes in T.
