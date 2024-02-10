@@ -28,19 +28,19 @@ for num in evens(9, 19):
 
 print()
 
-cn_nums = ["yi", "er", "san"]
-eng_nums = ["one", "two", "three"]
 nums = [1, 2, 3]
+eng_nums = ["one", "two", "three"]
+cn_nums = ["一", "二", "三"]
 
 
 def nums_gen():
-    yield from cn_nums
-    yield from eng_nums
     yield from nums
+    yield from eng_nums
+    yield from cn_nums
 
 
 def nums_zip():
-    return zip(cn_nums, eng_nums, nums)
+    return zip(nums, eng_nums, cn_nums)
 
 
 print(list(nums_gen()))
