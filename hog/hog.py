@@ -385,7 +385,9 @@ def final_strategy(score, opponent_score):
     *** YOUR DESCRIPTION HERE ***
     """
     # BEGIN PROBLEM 12
-    return 6  # Replace this statement
+    return more_boar_strategy(
+        score, opponent_score, lambda score: 8 if score <= 80 else 4
+    )
     # END PROBLEM 12
 
 
