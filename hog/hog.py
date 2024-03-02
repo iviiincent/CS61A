@@ -133,7 +133,7 @@ def play(
     say:        The commentary function to call at the end of the first turn.
     """
     who = 0  # Who is about to take a turn, 0 (first) or 1 (second)
-    # BEGIN PROBLEM 5
+    # BEGIN PROBLEM 6
     "*** YOUR CODE HERE ***"
     while max(score0, score1) < goal:
         if who == 0:
@@ -144,11 +144,7 @@ def play(
             score1 += take_turn(strategy1(score1, score0), score0, dice, goal)
             if not more_boar(score1, score0):
                 who = next_player(who)
-    return score0, score1
-    # END PROBLEM 5
-    # (note that the indentation for the problem 6 prompt (***YOUR CODE HERE***) might be misleading)
-    # BEGIN PROBLEM 6
-    "*** YOUR CODE HERE ***"
+        say = say(score0, score1)
     # END PROBLEM 6
     return score0, score1
 
