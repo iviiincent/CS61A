@@ -22,6 +22,7 @@ def roll_dice(num_rolls, dice=six_sided):
     assert num_rolls > 0, "Must roll at least once."
 
     # BEGIN PROBLEM 1
+    "*** YOUR CODE HERE ***"
     dices = []
     for i in range(num_rolls):
         dices.append(dice())
@@ -38,6 +39,8 @@ def piggy_points(score):
     """
 
     # BEGIN PROBLEM 2
+    "*** YOUR CODE HERE ***"
+    return int(min(str(score**2))) + 3
     # END PROBLEM 2
 
 
