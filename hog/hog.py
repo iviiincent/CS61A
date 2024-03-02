@@ -135,6 +135,16 @@ def play(
     who = 0  # Who is about to take a turn, 0 (first) or 1 (second)
     # BEGIN PROBLEM 5
     "*** YOUR CODE HERE ***"
+    while max(score0, score1) < goal:
+        if who == 0:
+            score0 += take_turn(strategy0(score0, score1), score1, dice, goal)
+            if not more_boar(score0, score1):
+                who = next_player(who)
+        else:
+            score1 += take_turn(strategy1(score1, score0), score0, dice, goal)
+            if not more_boar(score1, score0):
+                who = next_player(who)
+    return score0, score1
     # END PROBLEM 5
     # (note that the indentation for the problem 6 prompt (***YOUR CODE HERE***) might be misleading)
     # BEGIN PROBLEM 6
