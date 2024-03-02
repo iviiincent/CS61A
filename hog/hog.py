@@ -86,6 +86,9 @@ def more_boar(player_score, opponent_score):
     """
     # BEGIN PROBLEM 4
     "*** YOUR CODE HERE ***"
+    ps = str(player_score) if player_score >= 10 else "0" + str(player_score)
+    os = str(opponent_score) if opponent_score >= 10 else "0" + str(opponent_score)
+    return ps[0] < os[0] and ps[1] < os[1]
     # END PROBLEM 4
 
 
