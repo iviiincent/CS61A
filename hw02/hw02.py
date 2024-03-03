@@ -132,7 +132,7 @@ def make_repeater(func, n):
     """
     "*** YOUR CODE HERE ***"
     # Return a function.
-    return accumulate(compose1, func, n, lambda: func)
+    return accumulate(compose1, identity, n, lambda _: func)
 
 
 def zero(f):
