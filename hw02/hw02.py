@@ -131,7 +131,12 @@ def make_repeater(func, n):
     5
     """
     "*** YOUR CODE HERE ***"
-    # Return a function.
+    # if n == 0:
+    #     return identity
+    # f = func
+    # for i in range(n - 1):
+    #     f = compose1(func, f)
+    # return f
     return accumulate(compose1, identity, n, lambda _: func)
 
 
