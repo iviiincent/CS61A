@@ -80,7 +80,7 @@ def missing_digits(n):
     1
     >>> missing_digits(16789) # 2, 3, 4, 5
     4
-    
+
     >>> missing_digits(4) # No missing numbers between 4 and 4
     0
     >>> from construct_check import check
@@ -92,7 +92,7 @@ def missing_digits(n):
 
 
 def get_next_coin(coin):
-    """Return the next coin. 
+    """Return the next coin.
     >>> get_next_coin(1)
     5
     >>> get_next_coin(5)
@@ -121,7 +121,7 @@ def count_coins(change):
     242
     >>> from construct_check import check
     >>> # ban iteration
-    >>> check(HW_SOURCE_FILE, 'count_coins', ['While', 'For'])                                          
+    >>> check(HW_SOURCE_FILE, 'count_coins', ['While', 'For'])
     True
     """
     "*** YOUR CODE HERE ***"
@@ -140,7 +140,7 @@ def make_anonymous_factorial():
     >>> check(HW_SOURCE_FILE, 'make_anonymous_factorial', ['Assign', 'AugAssign', 'FunctionDef', 'Recursion'])
     True
     """
-    return 'YOUR_EXPRESSION_HERE'
+    return "YOUR_EXPRESSION_HERE"
 
 
 def print_move(origin, destination):
