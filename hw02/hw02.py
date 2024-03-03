@@ -1,4 +1,5 @@
 from operator import add, mul, sub
+from functools import reduce
 
 square = lambda x: x * x
 
@@ -31,6 +32,10 @@ def product(n, term):
     162
     """
     "*** YOUR CODE HERE ***"
+    res = 1
+    for i in range(1, n + 1):
+        res *= term(i)
+    return res
 
 
 def square(x):
@@ -60,6 +65,10 @@ def accumulate(combiner, base, n, term):
     16
     """
     "*** YOUR CODE HERE ***"
+    res = base
+    for i in range(1, n + 1):
+        res = combiner(res, term(i))
+    return res
 
 
 def summation_using_accumulate(n, term):
@@ -77,6 +86,7 @@ def summation_using_accumulate(n, term):
     True
     """
     "*** YOUR CODE HERE ***"
+    return accumulate(add, 0, n, term)
 
 
 def product_using_accumulate(n, term):
@@ -93,12 +103,15 @@ def product_using_accumulate(n, term):
     True
     """
     "*** YOUR CODE HERE ***"
+    return accumulate(mul, 1, n, term)
 
 
 def compose1(func1, func2):
     """Return a function f, such that f(x) = func1(func2(x))."""
+
     def f(x):
         return func1(func2(x))
+
     return f
 
 
@@ -118,6 +131,8 @@ def make_repeater(func, n):
     5
     """
     "*** YOUR CODE HERE ***"
+    # Return a function.
+    return accumulate(compose1, func, n, lambda: func)
 
 
 def zero(f):
