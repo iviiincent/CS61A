@@ -23,6 +23,9 @@ def num_eights(x):
     True
     """
     "*** YOUR CODE HERE ***"
+    if x == 0:
+        return 0
+    return (x % 10 == 8) + num_eights(x // 10)
 
 
 def pingpong(n):
@@ -59,6 +62,16 @@ def pingpong(n):
     """
     "*** YOUR CODE HERE ***"
 
+    # pingpong(n) = pingpong(n - 1) + flag(n - 1)
+    def flag(n):
+        if n == 0:
+            return 1
+        return -flag(n - 1) if num_eights(n) or n % 8 == 0 else flag(n - 1)
+
+    if n == 0:
+        return 0
+    return pingpong(n - 1) + flag(n - 1)
+
 
 def missing_digits(n):
     """Given a number a that is in sorted, increasing order,
@@ -89,6 +102,13 @@ def missing_digits(n):
     True
     """
     "*** YOUR CODE HERE ***"
+    if n < 10:
+        return 0
+    return (
+        missing_digits(n // 10)
+        + (n % 10 - n // 10 % 10)
+        + (-1 if n // 10 % 10 < n % 10 else 0)
+    )
 
 
 def get_next_coin(coin):
@@ -125,6 +145,19 @@ def count_coins(change):
     True
     """
     "*** YOUR CODE HERE ***"
+
+    def count(change, coin):
+        if change < coin:
+            return 0
+        elif change == coin:
+            return 1
+        else:
+            # use or not use
+            return count(change - coin, coin) + (
+                0 if coin == 25 else count(change, get_next_coin(coin))
+            )
+
+    return count(change, 1)
 
 
 from operator import sub, mul
