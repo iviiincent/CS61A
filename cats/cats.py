@@ -332,6 +332,11 @@ def time_per_word(times_per_player, words):
     """
     # BEGIN PROBLEM 9
     "*** YOUR CODE HERE ***"
+
+    used_times = []
+    for times in times_per_player:
+        used_times.append([times[i + 1] - times[i] for i in range(len(times) - 1)])
+    return game(words, used_times)
     # END PROBLEM 9
 
 
@@ -350,6 +355,17 @@ def fastest_words(game):
     word_indices = range(len(all_words(game)))  # contains an *index* for each word
     # BEGIN PROBLEM 10
     "*** YOUR CODE HERE ***"
+
+    res = [[] for _ in player_indices]
+    for word_index in word_indices:
+        fastest_player = 0
+        fastest_time = time(game, 0, word_index)
+        for player_index in player_indices:
+            if time(game, player_index, word_index) < fastest_time:
+                fastest_time = time(game, player_index, word_index)
+                fastest_player = player_index
+        res[fastest_player].append(word_at(game, word_index))
+    return res
     # END PROBLEM 10
 
 
