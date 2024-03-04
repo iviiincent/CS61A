@@ -155,6 +155,21 @@ def autocorrect(typed_word, valid_words, diff_function, limit):
     """
     # BEGIN PROBLEM 5
     "*** YOUR CODE HERE ***"
+
+    if typed_word in valid_words:
+        return typed_word
+    min_dis = limit + 1
+    res = typed_word
+
+    for word in valid_words:
+        dis = diff_function(typed_word, word, limit)
+        if dis > limit:
+            continue
+        if dis < min_dis:
+            res = word
+            min_dis = dis
+    return res
+
     # END PROBLEM 5
 
 
@@ -181,7 +196,18 @@ def sphinx_switches(start, goal, limit):
     5
     """
     # BEGIN PROBLEM 6
-    assert False, "Remove this line"
+
+    def count(start, goal, cnt):
+        if cnt > limit:
+            return limit + 1
+        if not start or not goal:
+            return cnt + max(len(start), len(goal))
+        elif start[0] != goal[0]:
+            return count(start[1:], goal[1:], cnt + 1)
+        else:
+            return count(start[1:], goal[1:], cnt)
+
+    return count(start, goal, 0)
     # END PROBLEM 6
 
 
@@ -202,24 +228,25 @@ def pawssible_patches(start, goal, limit):
     >>> pawssible_patches("ckiteus", "kittens", big_limit) # ckiteus -> kiteus -> kitteus -> kittens
     3
     """
-    assert False, "Remove this line"
 
-    if ______________:  # Fill in the condition
-        # BEGIN
+    if limit < 0:  # Fill in the condition
         "*** YOUR CODE HERE ***"
-        # END
+        return 0
 
-    elif ___________:  # Feel free to remove or add additional cases
-        # BEGIN
+    elif not start or not goal:  # Feel free to remove or add additional cases
         "*** YOUR CODE HERE ***"
-        # END
+        return max(len(start), len(goal))
+
+    elif start[0] == goal[0]:
+        return pawssible_patches(start[1:], goal[1:], limit)
 
     else:
-        add = ...  # Fill in these lines
-        remove = ...
-        substitute = ...
+        add = pawssible_patches(start[1:], goal, limit - 1)
+        remove = pawssible_patches(start[1:], goal[1:], limit - 1)
+        substitute = pawssible_patches(start, goal[1:], limit - 1)
         # BEGIN
         "*** YOUR CODE HERE ***"
+        return min(add, remove, substitute) + 1
         # END
 
 
@@ -262,6 +289,16 @@ def report_progress(typed, prompt, user_id, send):
     """
     # BEGIN PROBLEM 8
     "*** YOUR CODE HERE ***"
+
+    count = 0
+    for i in range(min(len(typed), len(prompt))):
+        if typed[i] != prompt[i]:
+            break
+        else:
+            count += 1
+    progress = count / len(prompt)
+    send({"id": user_id, "progress": progress})
+    return progress
     # END PROBLEM 8
 
 
