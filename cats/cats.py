@@ -55,6 +55,15 @@ def about(topic):
     assert all([lower(x) == x for x in topic]), "topics should be lowercase."
     # BEGIN PROBLEM 2
     "*** YOUR CODE HERE ***"
+
+    def select_funciton(paragraph):
+        words = split(lower(remove_punctuation(paragraph)))
+        for word in words:
+            if word in topic:
+                return True
+        return False
+
+    return select_funciton
     # END PROBLEM 2
 
 
@@ -85,6 +94,18 @@ def accuracy(typed, reference):
     reference_words = split(reference)
     # BEGIN PROBLEM 3
     "*** YOUR CODE HERE ***"
+
+    if len(typed_words) == 0 and len(reference_words) == 0:
+        return 100.0
+    elif len(typed_words) == 0 or len(reference_words) == 0:
+        return 0.0
+
+    count = 0
+    for i in range(min(len(typed_words), len(reference_words))):
+        if typed_words[i] == reference_words[i]:
+            count += 1
+
+    return count / len(typed_words) * 100
     # END PROBLEM 3
 
 
@@ -103,6 +124,7 @@ def wpm(typed, elapsed):
     assert elapsed > 0, "Elapsed time must be positive"
     # BEGIN PROBLEM 4
     "*** YOUR CODE HERE ***"
+
     # END PROBLEM 4
 
 
