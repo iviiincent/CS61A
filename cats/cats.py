@@ -125,6 +125,8 @@ def wpm(typed, elapsed):
     # BEGIN PROBLEM 4
     "*** YOUR CODE HERE ***"
 
+    return len(typed) / elapsed * 60 / 5
+
     # END PROBLEM 4
 
 
