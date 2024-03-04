@@ -31,6 +31,11 @@ def choose(paragraphs, select, k):
     """
     # BEGIN PROBLEM 1
     "*** YOUR CODE HERE ***"
+    if k >= len(paragraphs):
+        return ""
+
+    selected = [paragraph for paragraph in paragraphs if select(paragraph) == True]
+    return selected[k] if k < len(selected) else ""
     # END PROBLEM 1
 
 
