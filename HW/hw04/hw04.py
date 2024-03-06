@@ -367,6 +367,17 @@ def quadratic(x, a, b, c):
     """
     "*** YOUR CODE HERE ***"
 
+    def f(t):
+        return a * t * t + b * t + c
+
+    points = [lower_bound(x), -b / (2 * a), upper_bound(x)]
+    vals = [f(point) for point in points]
+
+    if points[0] <= points[1] <= points[2]:
+        return interval(min(vals), max(vals))
+    else:
+        return interval(min(vals[0], vals[2]), max(vals[0], vals[2]))
+
 
 # Tree ADT
 
