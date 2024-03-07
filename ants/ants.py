@@ -158,6 +158,7 @@ class HarvesterAnt(Ant):
 
     name = "Harvester"
     implemented = True
+    food_cost = 2
     # OVERRIDE CLASS ATTRIBUTES HERE
 
     def action(self, gamestate):
@@ -177,6 +178,9 @@ class ThrowerAnt(Ant):
     name = "Thrower"
     implemented = True
     damage = 1
+    food_cost = 3
+    min_range = 0
+    max_range = float("inf")
     # ADD/OVERRIDE CLASS ATTRIBUTES HERE
 
     def nearest_bee(self, beehive):
@@ -186,6 +190,17 @@ class ThrowerAnt(Ant):
         This method returns None if there is no such Bee (or none in range).
         """
         # BEGIN Problem 3 and 4
+        place = self.place
+        dis = 0
+
+        while not place.is_hive():
+            if dis > self.max_range:
+                break
+            elif self.min_range <= dis and place.bees:
+                return bee_selector(place.bees)
+            dis += 1
+            place = place.entrance
+        return None
         # END Problem 3 and 4
 
     def throw_at(self, target):
@@ -219,7 +234,7 @@ class ShortThrower(ThrowerAnt):
     food_cost = 2
     # OVERRIDE CLASS ATTRIBUTES HERE
     # BEGIN Problem 4
-    implemented = False  # Change to True to view in the GUI
+    max_range = 3
     # END Problem 4
 
 
@@ -230,7 +245,7 @@ class LongThrower(ThrowerAnt):
     food_cost = 2
     # OVERRIDE CLASS ATTRIBUTES HERE
     # BEGIN Problem 4
-    implemented = False  # Change to True to view in the GUI
+    min_range = 5
     # END Problem 4
 
 
@@ -242,7 +257,7 @@ class FireAnt(Ant):
     food_cost = 5
     # OVERRIDE CLASS ATTRIBUTES HERE
     # BEGIN Problem 5
-    implemented = False  # Change to True to view in the GUI
+    implemented = True  # Change to True to view in the GUI
     # END Problem 5
 
     def __init__(self, health=3):
@@ -251,13 +266,22 @@ class FireAnt(Ant):
 
     def reduce_health(self, amount):
         """Reduce health by AMOUNT, and remove the FireAnt from its place if it
-        has no health remaining.
-
-        Make sure to reduce the health of each bee in the current place, and apply
-        the additional damage if the fire ant dies.
+               has no health remaining.
+        w
+               Make sure to reduce the health of each bee in the current place, and apply
+               the additional damage if the fire ant dies.
         """
         # BEGIN Problem 5
         "*** YOUR CODE HERE ***"
+        damage = amount + (self.damage if self.health <= amount else 0)
+        place = self.place
+
+        # fireant
+        super().reduce_health(amount)
+        # bees
+        for bee in place.bees[:]:
+            bee.reduce_health(damage)
+
         # END Problem 5
 
 
