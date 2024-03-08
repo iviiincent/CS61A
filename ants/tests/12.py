@@ -5,19 +5,6 @@ test = {
     {
       'cases': [
         {
-          'answer': '80f6dfebbb21c78163b8aa9dc8abbe28',
-          'choices': [
-            'ScubaThrower',
-            'Ant',
-            'Insect',
-            'GameState'
-          ],
-          'hidden': False,
-          'locked': True,
-          'multiline': False,
-          'question': 'What class does QueenAnt inherit from?'
-        },
-        {
           'answer': '7f1e876193ad01466bb1f843c9a17b72',
           'choices': [
             r"""
@@ -82,7 +69,7 @@ test = {
       >>> from ants import *
       >>> beehive = Hive(AssaultPlan())
       >>> dimensions = (2, 9)
-      >>> gamestate = GameState(None, beehive, ant_types(), dry_layout, dimensions, food=100)
+      >>> gamestate = GameState(beehive, ant_types(), dry_layout, dimensions, food=100)
       """,
       'teardown': '',
       'type': 'doctest'
@@ -92,7 +79,7 @@ test = {
         {
           'code': r"""
           >>> # QueenAnt Placement
-          >>> queen = ants.QueenAnt.construct(gamestate)
+          >>> queen = ants.QueenAnt()
           >>> front_ant, back_ant = ants.ThrowerAnt(), ants.ThrowerAnt()
           >>> tunnel = [gamestate.places['tunnel_0_{0}'.format(i)]
           ...         for i in range(9)]
@@ -100,44 +87,15 @@ test = {
           >>> tunnel[7].add_insect(front_ant)
           >>> tunnel[4].ant is None
           True
-          >>> back_ant.damage           # Ants should not have double damage
+          >>> back_ant.damage           # Ants should not have double damage yet
           1
           >>> front_ant.damage
           1
           >>> tunnel[4].add_insect(queen)
           >>> queen.action(gamestate)
-          >>> queen.health               # Long live the Queen!
-          1
           >>> back_ant.damage           # Ants behind queen should have double damage
           2
           >>> front_ant.damage
-          1
-          """,
-          'hidden': False,
-          'locked': False,
-          'multiline': False
-        },
-        {
-          'code': r"""
-          >>> # QueenAnt Removal
-          >>> queen = ants.QueenAnt.construct(gamestate)
-          >>> place = gamestate.places['tunnel_0_2']
-          >>> place.add_insect(queen)
-          >>> place.remove_insect(queen)
-          >>> place.ant is queen        # True queen cannot be removed
-          True
-          """,
-          'hidden': False,
-          'locked': False,
-          'multiline': False
-        },
-        {
-          'code': r"""
-          >>> # QueenAnt knows how to swim
-          >>> queen = ants.QueenAnt.construct(gamestate)
-          >>> water = ants.Water('Water')
-          >>> water.add_insect(queen)
-          >>> queen.health
           1
           """,
           'hidden': False,
@@ -152,7 +110,7 @@ test = {
           >>> # layout
           >>> # queen_tunnel: [Back, Guard/Guarded, Queen, Front, Bee     ]
           >>> # side_tunnel : [Side,              ,      ,      , Side Bee]
-          >>> queen = ants.QueenAnt.construct(gamestate)
+          >>> queen = ants.QueenAnt()
           >>> back = ants.ThrowerAnt()
           >>> front = ants.ThrowerAnt()
           >>> guard = ants.BodyguardAnt()
@@ -195,8 +153,8 @@ test = {
       >>> importlib.reload(ants)
       >>> beehive = ants.Hive(ants.AssaultPlan())
       >>> dimensions = (2, 9)
-      >>> gamestate = ants.GameState(None, beehive, ants.ant_types(),
-      ...         ants.dry_layout, dimensions, food=20)
+      >>> gamestate = ants.GameState(beehive, ants.ant_types(),
+      ...                            ants.dry_layout, dimensions, food=20)
       >>> ants.ants_lose = lambda: None
       """,
       'teardown': '',
@@ -207,9 +165,9 @@ test = {
         {
           'code': r"""
           >>> # Testing game over
-          >>> queen = ants.QueenAnt.construct(gamestate)
+          >>> queen = ants.QueenAnt()
           >>> tunnel = [gamestate.places['tunnel_0_{0}'.format(i)]
-          ...         for i in range(9)]
+          ...           for i in range(9)]
           >>> tunnel[4].add_insect(queen)
           >>> bee = ants.Bee(3)
           >>> tunnel[6].add_insect(bee)     # Bee in a different place from the queen
@@ -225,7 +183,7 @@ test = {
         {
           'code': r"""
           >>> # Testing if queen will not crash with no one to double
-          >>> queen = ants.QueenAnt.construct(gamestate)
+          >>> queen = ants.QueenAnt()
           >>> gamestate.places['tunnel_0_2'].add_insect(queen)
           >>> queen.action(gamestate)
           >>> # Attack a bee
@@ -242,7 +200,7 @@ test = {
         {
           'code': r"""
           >>> # Testing QueenAnt action method
-          >>> queen = ants.QueenAnt.construct(gamestate)
+          >>> queen = ants.QueenAnt()
           >>> bee = ants.Bee(10)
           >>> ant = ants.ThrowerAnt()
           >>> gamestate.places['tunnel_0_0'].add_insect(ant)
@@ -268,7 +226,7 @@ test = {
           >>> # Extensive damage doubling tests
           >>> queen_tunnel, side_tunnel = [[gamestate.places['tunnel_{0}_{1}'.format(i, j)]
           ...         for j in range(9)] for i in range(2)]
-          >>> queen = ants.QueenAnt.construct(gamestate)
+          >>> queen = ants.QueenAnt()
           >>> queen_tunnel[7].add_insect(queen)
           >>> # Turn 0
           >>> thrower = ants.ThrowerAnt()
@@ -352,7 +310,7 @@ test = {
           'code': r"""
           >>> # Adding/Removing QueenAnt with Container
           >>> place = gamestate.places['tunnel_0_3']
-          >>> queen = ants.QueenAnt.construct(gamestate)
+          >>> queen = ants.QueenAnt()
           >>> container = ants.TankAnt()
           >>> place.add_insect(container)
           >>> place.ant is container
@@ -362,7 +320,6 @@ test = {
           >>> container.ant_contained is None
           True
           >>> place.add_insect(queen)
-          >>> place.remove_insect(queen)
           >>> container.ant_contained is queen
           True
           >>> queen.place is place
@@ -375,12 +332,12 @@ test = {
         },
         {
           'code': r"""
-          >>> # test proper call to death callback
-          >>> original_death_callback = ants.Insect.death_callback
-          >>> ants.Insect.death_callback = lambda x: print("insect died")
-          >>> real = ants.QueenAnt.construct(gamestate)
+          >>> # test proper call to zero_health_callback
+          >>> original_zero_health_callback = ants.Insect.zero_health_callback
+          >>> ants.Insect.zero_health_callback = lambda x: print("insect died")
+          >>> real = ants.QueenAnt()
           >>> gamestate.places['tunnel_0_2'].add_insect(real)
-          >>> ants.Insect.death_callback = original_death_callback
+          >>> ants.Insect.zero_health_callback = original_zero_health_callback
           """,
           'hidden': False,
           'locked': False,
@@ -403,8 +360,8 @@ test = {
       >>> importlib.reload(ants)
       >>> beehive = ants.Hive(ants.AssaultPlan())
       >>> dimensions = (2, 9)
-      >>> gamestate = ants.GameState(None, beehive, ants.ant_types(),
-      ...         ants.dry_layout, dimensions, food=20)
+      >>> gamestate = ants.GameState(beehive, ants.ant_types(),
+      ...                            ants.dry_layout, dimensions, food=20)
       >>> #
       """,
       'teardown': '',

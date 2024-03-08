@@ -40,7 +40,7 @@ test = {
       >>> from ants import *
       >>> beehive, layout = Hive(AssaultPlan()), dry_layout
       >>> dimensions = (1, 9)
-      >>> gamestate = GameState(None, beehive, ant_types(), layout, dimensions)
+      >>> gamestate = GameState(beehive, ant_types(), layout, dimensions)
       """,
       'teardown': '',
       'type': 'doctest'

@@ -113,9 +113,9 @@ test = {
         },
         {
           'code': r"""
-          >>> # test proper call to death callback
-          >>> original_death_callback = Insect.death_callback
-          >>> Insect.death_callback = lambda x: print("insect died")
+          >>> # test proper call to zero-health callback
+          >>> original_zero_health_callback = Insect.zero_health_callback
+          >>> Insect.zero_health_callback = lambda x: print("insect died")
           >>> place = Water('Water Test4')
           >>> soggy_bee = Bee(1)
           >>> soggy_bee.is_waterproof = False
@@ -124,7 +124,7 @@ test = {
           >>> place.add_insect(Bee(1))
           >>> place.add_insect(ThrowerAnt())
           insect died
-          >>> Insect.death_callback = original_death_callback
+          >>> Insect.zero_health_callback = original_zero_health_callback
           """,
           'hidden': False,
           'locked': False,
@@ -137,7 +137,7 @@ test = {
       >>> from ants_plans import *
       >>> beehive, layout = Hive(make_test_assault_plan()), dry_layout
       >>> dimensions = (1, 9)
-      >>> gamestate = GameState(None, beehive, ant_types(), layout, dimensions)
+      >>> gamestate = GameState(beehive, ant_types(), layout, dimensions)
       >>> #
       """,
       'teardown': '',
@@ -170,7 +170,7 @@ test = {
       >>> from ants_plans import *
       >>> beehive, layout = Hive(make_test_assault_plan()), dry_layout
       >>> dimensions = (1, 9)
-      >>> gamestate = GameState(None, beehive, ant_types(), layout, dimensions)
+      >>> gamestate = GameState(beehive, ant_types(), layout, dimensions)
       >>> old_add_insect = Place.add_insect
       """,
       'teardown': r"""

@@ -100,7 +100,7 @@ test = {
           'code': r"""
           >>> # Testing WallAnt holds strong
           >>> beehive, layout = Hive(AssaultPlan()), dry_layout
-          >>> gamestate = GameState(None, beehive, ant_types(), layout, (1, 9))
+          >>> gamestate = GameState(beehive, ant_types(), layout, (1, 9))
           >>> place = gamestate.places['tunnel_0_4']
           >>> wall = WallAnt()
           >>> bee = Bee(1000)

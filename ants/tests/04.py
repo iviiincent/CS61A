@@ -1,6 +1,6 @@
 test = {
   'name': 'Problem 4',
-  'points': 1,
+  'points': 2,
   'suites': [
     {
       'cases': [
@@ -309,7 +309,7 @@ test = {
       >>> from ants import *
       >>> beehive, layout = Hive(AssaultPlan()), dry_layout
       >>> dimensions = (1, 9)
-      >>> gamestate = GameState(None, beehive, ant_types(), layout, dimensions)
+      >>> gamestate = GameState(beehive, ant_types(), layout, dimensions)
       >>> #
       """,
       'teardown': '',
@@ -387,7 +387,7 @@ test = {
       >>> from ants import *
       >>> beehive, layout = Hive(AssaultPlan()), dry_layout
       >>> dimensions = (1, 100)
-      >>> gamestate = GameState(None, beehive, ant_types(), layout, dimensions)
+      >>> gamestate = GameState(beehive, ant_types(), layout, dimensions)
       >>> #
       """,
       'teardown': '',
@@ -478,7 +478,7 @@ test = {
       >>> from ants import *
       >>> beehive, layout = Hive(AssaultPlan()), dry_layout
       >>> dimensions = (1, 9)
-      >>> gamestate = GameState(None, beehive, ant_types(), layout, dimensions)
+      >>> gamestate = GameState(beehive, ant_types(), layout, dimensions)
       >>> old_thrower_action = ThrowerAnt.action
       >>> old_throw_at = ThrowerAnt.throw_at
       >>> #

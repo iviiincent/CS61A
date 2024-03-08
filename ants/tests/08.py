@@ -161,7 +161,7 @@ test = {
           >>> place.add_insect(second_ant)
           Traceback (most recent call last):
           ...
-          AssertionError: Two ants in tunnel_0_0
+          AssertionError: Too many ants in tunnel_0_0
           """,
           'hidden': False,
           'locked': False,
@@ -177,7 +177,7 @@ test = {
           >>> place.add_insect(bodyguard2)
           Traceback (most recent call last):
           ...
-          AssertionError: Two ants in tunnel_0_0
+          AssertionError: Too many ants in tunnel_0_0
           """,
           'hidden': False,
           'locked': False,
@@ -218,8 +218,8 @@ test = {
         {
           'code': r"""
           >>> # test proper call to death callback
-          >>> original_death_callback = Insect.death_callback
-          >>> Insect.death_callback = lambda x: print("insect died")
+          >>> original_zero_health_callback = Insect.zero_health_callback
+          >>> Insect.zero_health_callback = lambda x: print("insect died")
           >>> place = gamestate.places["tunnel_0_0"]
           >>> bee = Bee(3)
           >>> bodyguard = BodyguardAnt()
@@ -232,7 +232,7 @@ test = {
           insect died
           >>> bee.action(gamestate) # if you fail this test you probably didn't correctly call Ant.reduce_health or Insect.reduce_health
           insect died
-          >>> Insect.death_callback = original_death_callback
+          >>> Insect.zero_health_callback = original_zero_health_callback
           """,
           'hidden': False,
           'locked': False,
@@ -243,7 +243,7 @@ test = {
       'setup': r"""
       >>> from ants import *
       >>> beehive, layout = Hive(AssaultPlan()), dry_layout
-      >>> gamestate = GameState(None, beehive, ant_types(), layout, (1, 9))
+      >>> gamestate = GameState(beehive, ant_types(), layout, (1, 9))
       >>> #
       """,
       'teardown': '',

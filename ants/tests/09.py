@@ -91,7 +91,7 @@ test = {
       >>> from ants import *
       >>> beehive, layout = Hive(make_test_assault_plan()), dry_layout
       >>> dimensions = (1, 9)
-      >>> gamestate = GameState(None, beehive, ant_types(), layout, dimensions)
+      >>> gamestate = GameState(beehive, ant_types(), layout, dimensions)
       >>> #
       """,
       'teardown': '',
@@ -240,9 +240,9 @@ test = {
         },
         {
           'code': r"""
-          >>> # test proper call to death callback
-          >>> original_death_callback = Insect.death_callback
-          >>> Insect.death_callback = lambda x: print("insect died")
+          >>> # test proper call to zero-health callback
+          >>> original_zero_health_callback = Insect.zero_health_callback
+          >>> Insect.zero_health_callback = lambda x: print("insect died")
           >>> place = gamestate.places["tunnel_0_0"]
           >>> bee = Bee(3)
           >>> tank = TankAnt()
@@ -255,7 +255,7 @@ test = {
           insect died
           >>> bee.action(gamestate) # if you fail this test you probably didn't correctly call Ant.reduce_health or Insect.reduce_health
           insect died
-          >>> Insect.death_callback = original_death_callback
+          >>> Insect.zero_health_callback = original_zero_health_callback
           """,
           'hidden': False,
           'locked': False,
@@ -268,7 +268,7 @@ test = {
       >>> from ants import *
       >>> beehive, layout = Hive(make_test_assault_plan()), dry_layout
       >>> dimensions = (1, 9)
-      >>> gamestate = GameState(None, beehive, ant_types(), layout, dimensions)
+      >>> gamestate = GameState(beehive, ant_types(), layout, dimensions)
       >>> #
       """,
       'teardown': '',
