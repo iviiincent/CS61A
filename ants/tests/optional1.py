@@ -5,7 +5,7 @@ test = {
     {
       'cases': [
         {
-          'answer': 'All Ant types have a blocks_path attribute that is inherited from the Ant superclass',
+          'answer': 'd867280d511300bf4fa42dae8866a575',
           'choices': [
             r"""
             All Ant types have a blocks_path attribute that is inherited from
@@ -16,11 +16,12 @@ test = {
             'All Ant types except for NinjaAnt have a blocks_path attribute'
           ],
           'hidden': False,
-          'locked': False,
+          'locked': True,
+          'multiline': False,
           'question': 'Which Ant types have a blocks_path attribute?'
         },
         {
-          'answer': 'blocks_path is True for every Ant subclass except NinjaAnt',
+          'answer': '0a74e2e9020b74e8968cc9a0ed1ef38d',
           'choices': [
             'blocks_path is True for every Ant subclass except NinjaAnt',
             'blocks_path is False for every Ant subclass except NinjaAnt',
@@ -28,11 +29,12 @@ test = {
             'blocks_path is False for all Ants'
           ],
           'hidden': False,
-          'locked': False,
+          'locked': True,
+          'multiline': False,
           'question': 'What is the value of blocks_path for each Ant subclass?'
         },
         {
-          'answer': "When there is an Ant whose blocks_path attribute is True in the Bee's place",
+          'answer': 'ad3ed5994969f15b71d99c706bb59339',
           'choices': [
             "When there is an Ant in the Bee's place",
             r"""
@@ -43,11 +45,12 @@ test = {
             "When there are no Ants in the Bee's place"
           ],
           'hidden': False,
-          'locked': False,
+          'locked': True,
+          'multiline': False,
           'question': 'When is the path of a Bee blocked?'
         },
         {
-          'answer': "Reduces the Bee's health by the NinjaAnt's damage attribute",
+          'answer': '94f9395e9fd1d730fd15d335ecdaedd2',
           'choices': [
             "Reduces the Bee's health by the NinjaAnt's damage attribute",
             "Reduces the Bee's health to 0",
@@ -55,7 +58,8 @@ test = {
             "Blocks the Bee's path"
           ],
           'hidden': False,
-          'locked': False,
+          'locked': True,
+          'multiline': False,
           'question': 'What does a NinjaAnt do to each Bee that flies in its place?'
         }
       ],
@@ -69,25 +73,32 @@ test = {
           >>> # Testing NinjaAnt parameters
           >>> ninja = NinjaAnt()
           >>> ninja.health
-          1
+          d89cf7c79d5a479b0f636734143ed5e6
+          # locked
           >>> NinjaAnt.food_cost
-          5
+          62674984f877ec783f37e8b8b9c264d0
+          # locked
           """,
           'hidden': False,
-          'locked': False
+          'locked': True,
+          'multiline': False
         },
         {
           'code': r"""
           >>> # Testing blocks_path
           >>> NinjaAnt.blocks_path
-          False
+          03456a09f22295a39ca84d133a26f63d
+          # locked
           >>> HungryAnt.blocks_path
-          True
+          c7a88a0ffd3aef026b98eef6e7557da3
+          # locked
           >>> FireAnt.blocks_path
-          True
+          c7a88a0ffd3aef026b98eef6e7557da3
+          # locked
           """,
           'hidden': False,
-          'locked': False
+          'locked': True,
+          'multiline': False
         },
         {
           'code': r"""
@@ -102,17 +113,22 @@ test = {
           >>> p1.add_insect(ninja)              # Add the Bee and NinjaAnt to p1
           >>> bee.action(gamestate)
           >>> bee.place is ninja.place          # Did NinjaAnt block the Bee from moving?
-          False
+          03456a09f22295a39ca84d133a26f63d
+          # locked
           >>> bee.place is p0
-          True
+          c7a88a0ffd3aef026b98eef6e7557da3
+          # locked
           >>> ninja.health
-          1
+          d89cf7c79d5a479b0f636734143ed5e6
+          # locked
           >>> bee.action(gamestate)
           >>> bee.place is p0                   # Did ThrowerAnt block the Bee from moving?
-          True
+          c7a88a0ffd3aef026b98eef6e7557da3
+          # locked
           """,
           'hidden': False,
-          'locked': False
+          'locked': True,
+          'multiline': False
         },
         {
           'code': r"""
@@ -128,17 +144,22 @@ test = {
           >>> p1.add_insect(ninja_fire)              # Add the Bee and NinjaAnt to p1
           >>> bee.action(gamestate)
           >>> bee.place is ninja_fire.place          # Did the "ninjaish" FireAnt block the Bee from moving?
-          False
+          03456a09f22295a39ca84d133a26f63d
+          # locked
           >>> bee.place is p0
-          True
+          c7a88a0ffd3aef026b98eef6e7557da3
+          # locked
           >>> ninja_fire.health
-          1
+          d89cf7c79d5a479b0f636734143ed5e6
+          # locked
           >>> bee.action(gamestate)
           >>> bee.place is p0                   # Did ThrowerAnt block the Bee from moving?
-          True
+          c7a88a0ffd3aef026b98eef6e7557da3
+          # locked
           """,
           'hidden': False,
-          'locked': False
+          'locked': True,
+          'multiline': False
         },
         {
           'code': r"""
@@ -153,7 +174,8 @@ test = {
           [1, 1, 1]
           """,
           'hidden': False,
-          'locked': False
+          'locked': False,
+          'multiline': False
         },
         {
           'code': r"""
@@ -169,7 +191,8 @@ test = {
           [50, 50, 50]
           """,
           'hidden': False,
-          'locked': False
+          'locked': False,
+          'multiline': False
         },
         {
           'code': r"""
@@ -184,7 +207,8 @@ test = {
           0
           """,
           'hidden': False,
-          'locked': False
+          'locked': False,
+          'multiline': False
         },
         {
           'code': r"""
@@ -200,7 +224,8 @@ test = {
           400
           """,
           'hidden': False,
-          'locked': False
+          'locked': False,
+          'multiline': False
         },
         {
           'code': r"""
@@ -210,7 +235,8 @@ test = {
           >>> ninja.action(gamestate)
           """,
           'hidden': False,
-          'locked': False
+          'locked': False,
+          'multiline': False
         },
         {
           'code': r"""
@@ -220,7 +246,8 @@ test = {
           >>> bee.action(gamestate)
           """,
           'hidden': False,
-          'locked': False
+          'locked': False,
+          'multiline': False
         }
       ],
       'scored': True,
@@ -243,7 +270,8 @@ test = {
           True
           """,
           'hidden': False,
-          'locked': False
+          'locked': False,
+          'multiline': False
         }
       ],
       'scored': True,

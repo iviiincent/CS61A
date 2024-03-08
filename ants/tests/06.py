@@ -1,11 +1,11 @@
 test = {
   'name': 'Problem 6',
-  'points': 2,
+  'points': 1,
   'suites': [
     {
       'cases': [
         {
-          'answer': 'Ant',
+          'answer': '64cb170acd2b167609e6df7dd048fd96',
           'choices': [
             'Ant',
             'ThrowerAnt',
@@ -13,11 +13,12 @@ test = {
             'The WallAnt class does not inherit from any class'
           ],
           'hidden': False,
-          'locked': False,
+          'locked': True,
+          'multiline': False,
           'question': 'What class does WallAnt inherit from?'
         },
         {
-          'answer': 'A WallAnt takes no action each turn',
+          'answer': '342b4efa1ef6de0defc39dc4fbf1ebf1',
           'choices': [
             'A WallAnt takes no action each turn',
             'A WallAnt increases its own health by 1 each turn',
@@ -25,22 +26,24 @@ test = {
             'A WallAnt attacks all the Bees in its place each turn'
           ],
           'hidden': False,
-          'locked': False,
+          'locked': True,
+          'multiline': False,
           'question': "What is a WallAnt's action?"
         },
         {
-          'answer': 'Ant subclasses inherit the action method from the Insect class',
+          'answer': '50be1539e31a90ea01dbc6bf87f83b9f',
           'choices': [
             'Ant subclasses inherit the action method from the Insect class',
             'Ant subclasses inherit the action method from the Ant class',
             'Ant subclasses do not inherit the action method from any class'
           ],
           'hidden': False,
-          'locked': False,
+          'locked': True,
+          'multiline': False,
           'question': 'Where do Ant subclasses inherit the action method from?'
         },
         {
-          'answer': 'Nothing',
+          'answer': 'c3962b43bab9946b4984107f5e53e9e7',
           'choices': [
             'Nothing',
             'Throw a leaf at the nearest Bee',
@@ -48,7 +51,8 @@ test = {
             'Reduce the health of all Bees in its place'
           ],
           'hidden': False,
-          'locked': False,
+          'locked': True,
+          'multiline': False,
           'question': r"""
           If a subclass of Ant does not override the action method, what is the
           default action?
@@ -75,7 +79,8 @@ test = {
           4
           """,
           'hidden': False,
-          'locked': False
+          'locked': False,
+          'multiline': False
         },
         {
           'code': r"""
@@ -88,7 +93,8 @@ test = {
           >>> wall = WallAnt()
           """,
           'hidden': False,
-          'locked': False
+          'locked': False,
+          'multiline': False
         },
         {
           'code': r"""
@@ -113,7 +119,8 @@ test = {
           True
           """,
           'hidden': False,
-          'locked': False
+          'locked': False,
+          'multiline': False
         }
       ],
       'scored': True,
@@ -132,7 +139,8 @@ test = {
           True
           """,
           'hidden': False,
-          'locked': False
+          'locked': False,
+          'multiline': False
         }
       ],
       'scored': True,

@@ -5,7 +5,7 @@ test = {
     {
       'cases': [
         {
-          'answer': 'instance, each HungryAnt instance chews independently of other HungryAnt instances',
+          'answer': '9bdaf9d21c5bc25bc5b465def43443fc',
           'choices': [
             r"""
             instance, each HungryAnt instance chews independently of other
@@ -19,23 +19,25 @@ test = {
             'class, all HungryAnt instances in the game chew simultaneously'
           ],
           'hidden': False,
-          'locked': False,
-          'question': 'Should chewing be an instance or class attribute? Why?'
+          'locked': True,
+          'multiline': False,
+          'question': 'Should turns_to_chew be an instance or class attribute? Why?'
         },
         {
-          'answer': 'When it is not chewing, i.e. when its chewing attribute is 0',
+          'answer': '2d3708b34a9664cac245c99e8e798efe',
           'choices': [
-            'When it is not chewing, i.e. when its chewing attribute is 0',
-            'When it is chewing, i.e. when its chewing attribute is at least 1',
+            'When it is not chewing, i.e. when its turns_to_chew attribute is 0',
+            'When it is chewing, i.e. when its turns_to_chew attribute is at least 1',
             'Each turn',
             'Whenever a Bee is in its place'
           ],
           'hidden': False,
-          'locked': False,
+          'locked': True,
+          'multiline': False,
           'question': 'When is a HungryAnt able to eat a Bee?'
         },
         {
-          'answer': 'A random Bee in the same place as itself',
+          'answer': '30589d40710d13dfd27efd5cdd28c0f0',
           'choices': [
             'A random Bee in the same place as itself',
             'The closest Bee in front of it',
@@ -43,7 +45,8 @@ test = {
             'The closest Bee in either direction'
           ],
           'hidden': False,
-          'locked': False,
+          'locked': True,
+          'multiline': False,
           'question': 'When a HungryAnt is able to eat, which Bee does it eat?'
         }
       ],
@@ -57,32 +60,42 @@ test = {
           >>> # Testing HungryAnt parameters
           >>> hungry = HungryAnt()
           >>> HungryAnt.food_cost
-          4
+          c9452203eb0b0f0bd2454586a6c2fc5c
+          # locked
           >>> hungry.health
-          1
+          d89cf7c79d5a479b0f636734143ed5e6
+          # locked
+          >>> hungry.chewing_turns
+          81a7d27d1a4a958871bb97b545b871db
+          # locked
+          >>> hungry.turns_to_chew
+          73b94a1326ae2e803c3421016112207b
+          # locked
           """,
           'hidden': False,
-          'locked': False
+          'locked': True,
+          'multiline': False
         },
         {
           'code': r"""
           >>> # Abstraction tests
           >>> original = Ant.__init__
-          >>> Ant.__init__ = lambda self, health: print("init") #If this errors, you are not calling the parent constructor correctly.
+          >>> Ant.__init__ = lambda self, health: print("init")  # If this errors, you are not calling the parent constructor correctly.
           >>> hungry = HungryAnt()
           init
           >>> Ant.__init__ = original
           >>> hungry = HungryAnt()
           >>> # Class vs Instance attributes
-          >>> not hasattr(HungryAnt, 'chewing')
-          True
-          >>> hungry.chewing
+          >>> hasattr(HungryAnt, 'turns_to_chew')  # turns_to_chew should be an instance attribute
+          False
+          >>> hungry.turns_to_chew  # HungryAnt is ready to eat a bee
           0
-          >>> HungryAnt.chew_duration
+          >>> HungryAnt.chewing_turns
           3
           """,
           'hidden': False,
-          'locked': False
+          'locked': False,
+          'multiline': False
         },
         {
           'code': r"""
@@ -106,7 +119,33 @@ test = {
           0
           """,
           'hidden': False,
-          'locked': False
+          'locked': False,
+          'multiline': False
+        },
+        {
+          'code': r"""
+          >>> # Testing HungryAnt eats and chews for allotted time
+          >>> hungry = HungryAnt()
+          >>> bee1 = Bee(1000)              # A Bee with 1000 health
+          >>> place = gamestate.places["tunnel_0_0"]
+          >>> place.add_insect(hungry)
+          >>> place.add_insect(bee1)         # Add the Bee to the same place as HungryAnt
+          >>> hungry.action(gamestate)
+          >>> bee1.health
+          0
+          >>> bee2 = Bee(1)                 # A Bee with 1 health
+          >>> place.add_insect(bee2)
+          >>> for _ in range(2):
+          ...     hungry.action(gamestate)     # Digesting...not eating, should not finish eating!
+          >>> bee2.health
+          1
+          >>> hungry.action(gamestate)
+          >>> bee2.health
+          1
+          """,
+          'hidden': False,
+          'locked': False,
+          'multiline': False
         },
         {
           'code': r"""
@@ -118,18 +157,22 @@ test = {
           >>> place.add_insect(super_bee)
           >>> hungry.action(gamestate)         # super_bee is no match for HungryAnt!
           >>> super_bee.health
-          0
+          73b94a1326ae2e803c3421016112207b
+          # locked
           >>> place.add_insect(wimpy_bee)
           >>> for _ in range(3):
           ...     hungry.action(gamestate)     # chewing...not eating
           >>> wimpy_bee.health
-          1
+          d89cf7c79d5a479b0f636734143ed5e6
+          # locked
           >>> hungry.action(gamestate)         # back to eating!
           >>> wimpy_bee.health
-          0
+          73b94a1326ae2e803c3421016112207b
+          # locked
           """,
           'hidden': False,
-          'locked': False
+          'locked': True,
+          'multiline': False
         },
         {
           'code': r"""
@@ -156,13 +199,14 @@ test = {
           0
           """,
           'hidden': False,
-          'locked': False
+          'locked': False,
+          'multiline': False
         },
         {
           'code': r"""
           >>> # Testing HungryAnt chew duration looked up on instance
           >>> very_hungry = HungryAnt()  # Add very hungry caterpi- um, ant
-          >>> HungryAnt.chew_duration = 0
+          >>> HungryAnt.chewing_turns = 0
           >>> place = gamestate.places["tunnel_0_0"]
           >>> place.add_insect(very_hungry)
           >>> for _ in range(100):
@@ -173,7 +217,8 @@ test = {
           0
           """,
           'hidden': False,
-          'locked': False
+          'locked': False,
+          'multiline': False
         },
         {
           'code': r"""
@@ -194,7 +239,8 @@ test = {
           1
           """,
           'hidden': False,
-          'locked': False
+          'locked': False,
+          'multiline': False
         },
         {
           'code': r"""
@@ -207,7 +253,8 @@ test = {
           1
           """,
           'hidden': False,
-          'locked': False
+          'locked': False,
+          'multiline': False
         },
         {
           'code': r"""
@@ -224,7 +271,8 @@ test = {
           >>> Insect.death_callback = original_death_callback
           """,
           'hidden': False,
-          'locked': False
+          'locked': False,
+          'multiline': False
         },
         {
           'code': r"""
@@ -246,7 +294,33 @@ test = {
           2
           """,
           'hidden': False,
-          'locked': False
+          'locked': False,
+          'multiline': False
+        },
+        {
+          'code': r"""
+          >>> # Testing HungryAnt chooses a random bee in its Place, and that it reduces that bee's health to 0.
+          >>> hungry = HungryAnt()
+          >>> HungryAnt.chewing_turns = 0
+          >>> place = gamestate.places["tunnel_0_0"]
+          >>> place.add_insect(hungry)
+          >>> first_bee_chosen_count = 0
+          >>> for _ in range(1000):
+          ...     place.add_insect(Bee(1)) # Add a bee with 1 health to place
+          ...     place.add_insect(Bee(2)) # Add a second bee with 2 health to place
+          ...     hungry.action(gamestate) # Eat one of the bees randomly
+          ...     assert len(place.bees) == 1, "A bee was not eaten! Make sure you are reducing the bee's health by the correct amount."
+          ...     if place.bees[0].health == 2:
+          ...             first_bee_chosen_count += 1
+          ...     place.remove_insect(place.bees[0])
+          >>> first_bee_chosen_count < 1000 # If bees are chosen randomly, HungryAnt should eat the first bee less than 1000 times with high probability
+          True
+          >>> first_bee_chosen_count > 0 # If bees are chosen randomly, HungryAnt should eat the first bee at least once with high probability
+          True
+          """,
+          'hidden': False,
+          'locked': False,
+          'multiline': False
         }
       ],
       'scored': True,
@@ -269,7 +343,8 @@ test = {
           True
           """,
           'hidden': False,
-          'locked': False
+          'locked': False,
+          'multiline': False
         }
       ],
       'scored': True,

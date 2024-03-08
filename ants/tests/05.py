@@ -5,7 +5,7 @@ test = {
     {
       'cases': [
         {
-          'answer': 'By accessing the place instance attribute, which is a Place object',
+          'answer': '9b8f7869c0cf94ceb6a862dc352b4df1',
           'choices': [
             'By accessing the place instance attribute, which is a Place object',
             r"""
@@ -16,11 +16,12 @@ test = {
             'By calling the FireAnt constructor'
           ],
           'hidden': False,
-          'locked': False,
+          'locked': True,
+          'multiline': False,
           'question': 'How can you obtain the current place of a FireAnt?'
         },
         {
-          'answer': 'By accessing the bees instance attribute, which is a list of Bee objects',
+          'answer': '81e2e777eb97c4cb836bdcb2fbb428d6',
           'choices': [
             r"""
             By accessing the bees instance attribute, which is a list of Bee
@@ -34,11 +35,12 @@ test = {
             'By calling the Bee constructor, passing in the place instance'
           ],
           'hidden': False,
-          'locked': False,
+          'locked': True,
+          'multiline': False,
           'question': 'How can you obtain all of the Bees currently in a given place?'
         },
         {
-          'answer': 'Yes, but you should iterate over a copy of the list to avoid skipping elements',
+          'answer': 'c95a4e74584be420b1318afb809bb642',
           'choices': [
             r"""
             Yes, but you should iterate over a copy of the list to avoid skipping
@@ -51,7 +53,8 @@ test = {
             """
           ],
           'hidden': False,
-          'locked': False,
+          'locked': True,
+          'multiline': False,
           'question': 'Can you iterate over a list while mutating it?'
         }
       ],
@@ -65,12 +68,15 @@ test = {
           >>> # Testing FireAnt parameters
           >>> fire = FireAnt()
           >>> FireAnt.food_cost
-          5
+          62674984f877ec783f37e8b8b9c264d0
+          # locked
           >>> fire.health
-          3
+          81a7d27d1a4a958871bb97b545b871db
+          # locked
           """,
           'hidden': False,
-          'locked': False
+          'locked': True,
+          'multiline': False
         },
         {
           'code': r"""
@@ -90,7 +96,8 @@ test = {
           >>> Ant.reduce_health = original
           """,
           'hidden': False,
-          'locked': False
+          'locked': False,
+          'multiline': False
         },
         {
           'code': r"""
@@ -101,33 +108,42 @@ test = {
           >>> place.add_insect(Bee(3))      # Add a Bee with 3 health
           >>> place.add_insect(Bee(5))      # Add a Bee with 5 health
           >>> len(place.bees)               # How many bees are there?
-          2
+          20d533d3e06345c8bd7072212867f2d1
+          # locked
           >>> place.bees[0].action(gamestate)  # The first Bee attacks FireAnt
           >>> fire.health
-          0
+          73b94a1326ae2e803c3421016112207b
+          # locked
           >>> fire.place is None
-          True
+          c7a88a0ffd3aef026b98eef6e7557da3
+          # locked
           >>> len(place.bees)               # How many bees are left?
-          1
+          d89cf7c79d5a479b0f636734143ed5e6
+          # locked
           >>> place.bees[0].health           # What is the health of the remaining Bee?
-          1
+          d89cf7c79d5a479b0f636734143ed5e6
+          # locked
           """,
           'hidden': False,
-          'locked': False
+          'locked': True,
+          'multiline': False
         },
         {
           'code': r"""
           >>> place = gamestate.places['tunnel_0_4']
-          >>> ant = FireAnt(1)           # Create a FireAnt with 1 health
+          >>> ant = FireAnt(health=1)           # Create a FireAnt with 1 health
           >>> place.add_insect(ant)      # Add a FireAnt to place
           >>> ant.place is place
-          True
+          c7a88a0ffd3aef026b98eef6e7557da3
+          # locked
           >>> place.remove_insect(ant)   # Remove FireAnt from place
           >>> ant.place is place         # Is the ant's place still that place?
-          False
+          03456a09f22295a39ca84d133a26f63d
+          # locked
           """,
           'hidden': False,
-          'locked': False
+          'locked': True,
+          'multiline': False
         },
         {
           'code': r"""
@@ -144,7 +160,8 @@ test = {
           4
           """,
           'hidden': False,
-          'locked': False
+          'locked': False,
+          'multiline': False
         },
         {
           'code': r"""
@@ -162,7 +179,8 @@ test = {
           50
           """,
           'hidden': False,
-          'locked': False
+          'locked': False,
+          'multiline': False
         },
         {
           'code': r"""
@@ -179,7 +197,8 @@ test = {
           1
           """,
           'hidden': False,
-          'locked': False
+          'locked': False,
+          'multiline': False
         },
         {
           'code': r"""
@@ -193,7 +212,8 @@ test = {
           0
           """,
           'hidden': False,
-          'locked': False
+          'locked': False,
+          'multiline': False
         },
         {
           'code': r"""
@@ -209,7 +229,8 @@ test = {
           399
           """,
           'hidden': False,
-          'locked': False
+          'locked': False,
+          'multiline': False
         },
         {
           'code': r"""
@@ -233,7 +254,8 @@ test = {
           'tunnel_0_3'
           """,
           'hidden': False,
-          'locked': False
+          'locked': False,
+          'multiline': False
         },
         {
           'code': r"""
@@ -252,7 +274,8 @@ test = {
           True
           """,
           'hidden': False,
-          'locked': False
+          'locked': False,
+          'multiline': False
         },
         {
           'code': r"""
@@ -272,7 +295,8 @@ test = {
           >>> Insect.death_callback = original_death_callback
           """,
           'hidden': False,
-          'locked': False
+          'locked': False,
+          'multiline': False
         }
       ],
       'scored': True,
@@ -295,7 +319,8 @@ test = {
           True
           """,
           'hidden': False,
-          'locked': False
+          'locked': False,
+          'multiline': False
         }
       ],
       'scored': True,

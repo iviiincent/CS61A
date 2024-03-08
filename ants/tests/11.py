@@ -1,36 +1,38 @@
 test = {
   'name': 'Problem 11',
-  'points': 2,
+  'points': 1,
   'suites': [
     {
       'cases': [
         {
-          'answer': "It is watersafe, so its health won't be reduced to 0 when it is placed in a Water Place",
+          'answer': '6512574582a86c43afdb727fa08dd08a',
           'choices': [
             r"""
-            It is watersafe, so its health won't be reduced to 0 when it is
+            It is waterproof, so its health won't be reduced to 0 when it is
             placed in a Water Place
             """,
             r"""
-            It is not watersafe, so its health will be reduced to 0 when it is
+            It is not waterproof, so its health will be reduced to 0 when it is
             placed in a Water Place
             """,
             'It throws water pellets instead of leaves'
           ],
           'hidden': False,
-          'locked': False,
+          'locked': True,
+          'multiline': False,
           'question': 'How is a ScubaThrower different from a regular ThrowerAnt?'
         },
         {
-          'answer': 'name, is_watersafe, food_cost',
+          'answer': '5efd048fe229d12ce42660f525c96ac1',
           'choices': [
-            'name, is_watersafe, food_cost',
+            'name, is_waterproof, food_cost',
             'food_cost, action, damage',
-            'is_watersafe, action',
-            'name, nearest_bee, is_watersafe'
+            'is_waterproof, action',
+            'name, nearest_bee, is_waterproof'
           ],
           'hidden': False,
-          'locked': False,
+          'locked': True,
+          'multiline': False,
           'question': r"""
           Which inherited attributes and/or methods should ScubaThrower
           override?
@@ -47,12 +49,15 @@ test = {
           >>> # Testing ScubaThrower parameters
           >>> scuba = ScubaThrower()
           >>> ScubaThrower.food_cost
-          6
+          50ae32be3e31df6c59633df7fdfb3a72
+          # locked
           >>> scuba.health
-          1
+          d89cf7c79d5a479b0f636734143ed5e6
+          # locked
           """,
           'hidden': False,
-          'locked': False
+          'locked': True,
+          'multiline': False
         }
       ],
       'scored': False,
@@ -66,31 +71,37 @@ test = {
       'cases': [
         {
           'code': r"""
-          >>> # Testing if ScubaThrower is watersafe
+          >>> # Testing if ScubaThrower is waterproof
           >>> water = Water('Water')
           >>> ant = ScubaThrower()
           >>> water.add_insect(ant)
           >>> ant.place is water
-          True
+          c7a88a0ffd3aef026b98eef6e7557da3
+          # locked
           >>> ant.health
-          1
+          d89cf7c79d5a479b0f636734143ed5e6
+          # locked
           """,
           'hidden': False,
-          'locked': False
+          'locked': True,
+          'multiline': False
         },
         {
           'code': r"""
-          >>> # Testing that ThrowerAnt is not watersafe
+          >>> # Testing that ThrowerAnt is not waterproof
           >>> water = Water('Water')
           >>> ant = ThrowerAnt()
           >>> water.add_insect(ant)
           >>> ant.place is water
-          False
+          03456a09f22295a39ca84d133a26f63d
+          # locked
           >>> ant.health
-          0
+          73b94a1326ae2e803c3421016112207b
+          # locked
           """,
           'hidden': False,
-          'locked': False
+          'locked': True,
+          'multiline': False
         },
         {
           'code': r"""
@@ -106,7 +117,8 @@ test = {
           2
           """,
           'hidden': False,
-          'locked': False
+          'locked': False,
+          'multiline': False
         },
         {
           'code': r"""
@@ -123,7 +135,8 @@ test = {
           2
           """,
           'hidden': False,
-          'locked': False
+          'locked': False,
+          'multiline': False
         }
       ],
       'scored': True,
@@ -163,7 +176,8 @@ test = {
           inherits throw_at!
           """,
           'hidden': False,
-          'locked': False
+          'locked': False,
+          'multiline': False
         }
       ],
       'scored': True,
@@ -190,7 +204,8 @@ test = {
           True
           """,
           'hidden': False,
-          'locked': False
+          'locked': False,
+          'multiline': False
         }
       ],
       'scored': True,

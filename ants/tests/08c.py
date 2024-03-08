@@ -1,23 +1,50 @@
 test = {
-  'name': 'Problem 8',
-  'points': 0,
+  'name': 'Problem 8c',
+  'points': 1,
   'suites': [
     {
       'cases': [
         {
-          'answer': 'c1637d7df9f040dc0b1cd3b7d43616a9',
+          'answer': '9f40b97857ecfadf1e7ad1c7965f2464',
           'choices': [
-            'No, I will go do them right now',
-            'Yes!'
+            'ContainerAnt class',
+            'Insect class',
+            'the BodyguardAnt does not inherit from any other class',
+            'Ant class'
           ],
           'hidden': False,
           'locked': True,
           'multiline': False,
-          'question': 'Did you complete all the unlocking tests for each subpart?'
+          'question': 'Where does a BodyguardAnt directly inherit all of its instance attributes from?'
         }
       ],
       'scored': False,
       'type': 'concept'
+    },
+    {
+      'cases': [
+        {
+          'code': r"""
+          >>> # Testing BodyguardAnt parameters
+          >>> bodyguard = BodyguardAnt()
+          >>> BodyguardAnt.food_cost
+          c9452203eb0b0f0bd2454586a6c2fc5c
+          # locked
+          >>> bodyguard.health
+          20d533d3e06345c8bd7072212867f2d1
+          # locked
+          """,
+          'hidden': False,
+          'locked': True,
+          'multiline': False
+        }
+      ],
+      'scored': True,
+      'setup': r"""
+      >>> from ants import *
+      """,
+      'teardown': '',
+      'type': 'doctest'
     },
     {
       'cases': [

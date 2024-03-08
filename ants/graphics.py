@@ -8,7 +8,8 @@ try:
 except Exception as e:
     print('Could not load tkinter: ' + str(e))
 
-FRAME_TIME = 1/30
+FRAME_TIME = 1 / 30
+
 
 class Canvas:
     """A Canvas object supports drawing and animation primitives.
@@ -96,7 +97,7 @@ class Canvas:
             if scale >= 1:
                 image = image.zoom(int(scale))
             else:
-                image = image.subsample(int(1/scale))
+                image = image.subsample(int(1 / scale))
             self._images[key] = image
 
         image = self._images[key]
@@ -139,6 +140,7 @@ class Canvas:
         points = paired(self._canvas.coords(id))
         start_pos = points[0]
         max_frames = duration // FRAME_TIME
+
         def points_fn(frame_count):
             completed = frame_count / max_frames
             offset = [(e - s) * completed for s, e in zip(start_pos, end_pos)]
@@ -167,7 +169,7 @@ class Canvas:
 
     def _draw_background(self):
         w, h = self.width - 1, self.height - 1
-        corners = [(0,0), (0, h), (w, h), (w, 0)]
+        corners = [(0, 0), (0, h), (w, h), (w, 0)]
         self.draw_polygon(corners, self.color, fill_color=self.color, filled=True, smooth=False)
 
     def _click(self, event):
@@ -178,11 +180,13 @@ class Canvas:
         self._tk.after(int(1000 * seconds), self._tk.quit)
         self._tk.mainloop()
 
+
 def flattened(points):
     """Return a flat list of coordinates from a list of pairs."""
     coords = list()
     [coords.extend(p) for p in points]
     return tuple(coords)
+
 
 def paired(coords):
     """Return a list of pairs from a flat list of coordinates."""
@@ -197,10 +201,12 @@ def paired(coords):
             x = None
     return points
 
+
 def translate_point(point, angle, distance):
     """Translate a point a distance in a direction (angle)."""
     x, y = point
     return (x + math.cos(angle) * distance, y + math.sin(angle) * distance)
+
 
 def shift_point(point, offset):
     """Shift a point by an offset."""
@@ -208,11 +214,13 @@ def shift_point(point, offset):
     dx, dy = offset
     return (x + dx, y + dy)
 
+
 def rectangle_points(pos, width, height):
     """Return the points of a rectangle starting at pos."""
     x1, y1 = pos
     x2, y2 = width + x1, height + y1
     return [(x1, y1), (x1, y2), (x2, y2), (x2, y1)]
+
 
 def format_color(r, g, b):
     """Format a color as a string.

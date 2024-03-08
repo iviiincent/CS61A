@@ -1,11 +1,11 @@
 test = {
-  'name': 'Problem EC',
+  'name': 'Problem 12',
   'points': 2,
   'suites': [
     {
       'cases': [
         {
-          'answer': 'ScubaThrower',
+          'answer': '80f6dfebbb21c78163b8aa9dc8abbe28',
           'choices': [
             'ScubaThrower',
             'Ant',
@@ -13,38 +13,12 @@ test = {
             'GameState'
           ],
           'hidden': False,
-          'locked': False,
+          'locked': True,
+          'multiline': False,
           'question': 'What class does QueenAnt inherit from?'
         },
         {
-          'answer': 'The first QueenAnt that is instantiated',
-          'choices': [
-            'The first QueenAnt that is instantiated',
-            'The second QueenAnt that is instantiated',
-            'The most recent QueenAnt that is instantiated',
-            'All QueenAnt instances are true QueenAnts'
-          ],
-          'hidden': False,
-          'locked': False,
-          'question': 'Which QueenAnt instance is the true QueenAnt?'
-        },
-        {
-          'answer': 'Its health is reduced to 0 upon taking its first action',
-          'choices': [
-            'Its health is reduced to 0 upon taking its first action',
-            'Nothing, the game ends',
-            'The health of the first QueenAnt is reduced to 0',
-            'It doubles the damage of all the ants behind it'
-          ],
-          'hidden': False,
-          'locked': False,
-          'question': r"""
-          What happens to any QueenAnt instance that is instantiated after the
-          first one?
-          """
-        },
-        {
-          'answer': "Attacks the nearest bee and doubles the damage of all the ants behind her (that haven't already been doubled)",
+          'answer': '7f1e876193ad01466bb1f843c9a17b72',
           'choices': [
             r"""
             Attacks the nearest bee and doubles the damage of all the ants
@@ -64,20 +38,22 @@ test = {
             """
           ],
           'hidden': False,
-          'locked': False,
-          'question': 'What does the true QueenAnt do each turn?'
+          'locked': True,
+          'multiline': False,
+          'question': 'What does a QueenAnt do each turn?'
         },
         {
-          'answer': 'If a Bee reaches the end of a tunnel or the true QueenAnt dies',
+          'answer': '5513089cd61eeda577f95f887b408517',
           'choices': [
-            'If a Bee reaches the end of a tunnel or the true QueenAnt dies',
+            'If a Bee reaches the end of a tunnel or a QueenAnt dies',
             'If there are no ants left in the colony',
-            'If an imposter QueenAnt is placed in the colony',
-            'If a Bee attacks the true QueenAnt'
+            'If a second QueenAnt is placed in the colony',
+            'If a Bee attacks a QueenAnt'
           ],
           'hidden': False,
-          'locked': False,
-          'question': 'Under what circumstances do Bees win the game?'
+          'locked': True,
+          'multiline': False,
+          'question': 'Under what circumstances do Ants lose the game?'
         }
       ],
       'scored': False,
@@ -89,31 +65,24 @@ test = {
           'code': r"""
           >>> # Testing QueenAnt parameters
           >>> QueenAnt.food_cost
-          7
+          7cd035adf49fc93a635b4e8bb2e28bd4
+          # locked
           >>> queen = QueenAnt()
           >>> queen.health
-          1
+          d89cf7c79d5a479b0f636734143ed5e6
+          # locked
           """,
           'hidden': False,
-          'locked': False
-        },
-        {
-          'code': r"""
-          >>> # Abstraction tests
-          >>> original = ScubaThrower.__init__
-          >>> ScubaThrower.__init__ = lambda self, health: print("init") #If this errors, you are not calling the parent constructor correctly.
-          >>> queen = QueenAnt()
-          init
-          >>> ScubaThrower.__init__ = original
-          >>> queen = QueenAnt()
-          """,
-          'hidden': False,
-          'locked': False
+          'locked': True,
+          'multiline': False
         }
       ],
       'scored': True,
       'setup': r"""
       >>> from ants import *
+      >>> beehive = Hive(AssaultPlan())
+      >>> dimensions = (2, 9)
+      >>> gamestate = GameState(None, beehive, ant_types(), dry_layout, dimensions, food=100)
       """,
       'teardown': '',
       'type': 'doctest'
@@ -123,20 +92,15 @@ test = {
         {
           'code': r"""
           >>> # QueenAnt Placement
-          >>> queen = ants.QueenAnt()
-          >>> impostor = ants.QueenAnt()
+          >>> queen = ants.QueenAnt.construct(gamestate)
           >>> front_ant, back_ant = ants.ThrowerAnt(), ants.ThrowerAnt()
           >>> tunnel = [gamestate.places['tunnel_0_{0}'.format(i)]
           ...         for i in range(9)]
           >>> tunnel[1].add_insect(back_ant)
           >>> tunnel[7].add_insect(front_ant)
-          >>> tunnel[4].add_insect(impostor)
-          >>> impostor.action(gamestate)
-          >>> impostor.health            # Impostors must die!
-          0
           >>> tunnel[4].ant is None
           True
-          >>> back_ant.damage           # Ants should not be buffed
+          >>> back_ant.damage           # Ants should not have double damage
           1
           >>> front_ant.damage
           1
@@ -144,43 +108,41 @@ test = {
           >>> queen.action(gamestate)
           >>> queen.health               # Long live the Queen!
           1
-          >>> back_ant.damage           # Ants behind queen should be buffed
+          >>> back_ant.damage           # Ants behind queen should have double damage
           2
           >>> front_ant.damage
           1
           """,
           'hidden': False,
-          'locked': False
+          'locked': False,
+          'multiline': False
         },
         {
           'code': r"""
           >>> # QueenAnt Removal
-          >>> queen = ants.QueenAnt()
-          >>> impostor = ants.QueenAnt()
+          >>> queen = ants.QueenAnt.construct(gamestate)
           >>> place = gamestate.places['tunnel_0_2']
-          >>> place.add_insect(impostor)
-          >>> place.remove_insect(impostor)
-          >>> place.ant is None         # Impostors can be removed
-          True
           >>> place.add_insect(queen)
           >>> place.remove_insect(queen)
           >>> place.ant is queen        # True queen cannot be removed
           True
           """,
           'hidden': False,
-          'locked': False
+          'locked': False,
+          'multiline': False
         },
         {
           'code': r"""
           >>> # QueenAnt knows how to swim
-          >>> queen = ants.QueenAnt()
+          >>> queen = ants.QueenAnt.construct(gamestate)
           >>> water = ants.Water('Water')
           >>> water.add_insect(queen)
           >>> queen.health
           1
           """,
           'hidden': False,
-          'locked': False
+          'locked': False,
+          'multiline': False
         },
         {
           'code': r"""
@@ -190,7 +152,7 @@ test = {
           >>> # layout
           >>> # queen_tunnel: [Back, Guard/Guarded, Queen, Front, Bee     ]
           >>> # side_tunnel : [Side,              ,      ,      , Side Bee]
-          >>> queen = ants.QueenAnt()
+          >>> queen = ants.QueenAnt.construct(gamestate)
           >>> back = ants.ThrowerAnt()
           >>> front = ants.ThrowerAnt()
           >>> guard = ants.BodyguardAnt()
@@ -216,14 +178,15 @@ test = {
           >>> bee.health
           6
           >>> guard.action(gamestate)
-          >>> bee.health # if this is 5 you probably forgot to buff the contents of guard
+          >>> bee.health # if this is 5 you probably forgot to double the damage of the guard's contents
           4
           >>> side.action(gamestate)
           >>> side_bee.health
           9
           """,
           'hidden': False,
-          'locked': False
+          'locked': False,
+          'multiline': False
         }
       ],
       'scored': True,
@@ -233,8 +196,8 @@ test = {
       >>> beehive = ants.Hive(ants.AssaultPlan())
       >>> dimensions = (2, 9)
       >>> gamestate = ants.GameState(None, beehive, ants.ant_types(),
-      ...         ants.dry_layout, dimensions)
-      >>> ants.bees_win = lambda: None
+      ...         ants.dry_layout, dimensions, food=20)
+      >>> ants.ants_lose = lambda: None
       """,
       'teardown': '',
       'type': 'doctest'
@@ -244,26 +207,25 @@ test = {
         {
           'code': r"""
           >>> # Testing game over
-          >>> queen = ants.QueenAnt()
-          >>> impostor = ants.QueenAnt()
+          >>> queen = ants.QueenAnt.construct(gamestate)
           >>> tunnel = [gamestate.places['tunnel_0_{0}'.format(i)]
           ...         for i in range(9)]
           >>> tunnel[4].add_insect(queen)
-          >>> tunnel[6].add_insect(impostor)
           >>> bee = ants.Bee(3)
-          >>> tunnel[6].add_insect(bee)     # Bee in place with impostor
-          >>> bee.action(gamestate)            # Game should not end
-          >>> bee.move_to(tunnel[4])        # Bee moved to place with true queen
-          >>> bee.action(gamestate)            # Game should end
-          BeesWinException
+          >>> tunnel[6].add_insect(bee)     # Bee in a different place from the queen
+          >>> bee.action(gamestate)         # Game should not end
+          >>> bee.move_to(tunnel[4])        # Bee moved to place with queen
+          >>> bee.action(gamestate)         # Game should end
+          AntsLoseException
           """,
           'hidden': False,
-          'locked': False
+          'locked': False,
+          'multiline': False
         },
         {
           'code': r"""
-          >>> # Testing if queen will not crash with no one to buff
-          >>> queen = ants.QueenAnt()
+          >>> # Testing if queen will not crash with no one to double
+          >>> queen = ants.QueenAnt.construct(gamestate)
           >>> gamestate.places['tunnel_0_2'].add_insect(queen)
           >>> queen.action(gamestate)
           >>> # Attack a bee
@@ -274,24 +236,18 @@ test = {
           2
           """,
           'hidden': False,
-          'locked': False
+          'locked': False,
+          'multiline': False
         },
         {
           'code': r"""
           >>> # Testing QueenAnt action method
-          >>> queen = ants.QueenAnt()
-          >>> impostor = ants.QueenAnt()
+          >>> queen = ants.QueenAnt.construct(gamestate)
           >>> bee = ants.Bee(10)
           >>> ant = ants.ThrowerAnt()
           >>> gamestate.places['tunnel_0_0'].add_insect(ant)
           >>> gamestate.places['tunnel_0_1'].add_insect(queen)
-          >>> gamestate.places['tunnel_0_2'].add_insect(impostor)
           >>> gamestate.places['tunnel_0_4'].add_insect(bee)
-          >>> impostor.action(gamestate)
-          >>> bee.health   # Impostor should not damage bee
-          10
-          >>> ant.damage  # Impostor should not double damage
-          1
           >>> queen.action(gamestate)
           >>> bee.health   # Queen should damage bee
           9
@@ -302,18 +258,17 @@ test = {
           7
           >>> queen.health   # Long live the Queen
           1
-          >>> impostor.health  # Short-lived impostor
-          0
           """,
           'hidden': False,
-          'locked': False
+          'locked': False,
+          'multiline': False
         },
         {
           'code': r"""
           >>> # Extensive damage doubling tests
           >>> queen_tunnel, side_tunnel = [[gamestate.places['tunnel_{0}_{1}'.format(i, j)]
           ...         for j in range(9)] for i in range(2)]
-          >>> queen = ants.QueenAnt()
+          >>> queen = ants.QueenAnt.construct(gamestate)
           >>> queen_tunnel[7].add_insect(queen)
           >>> # Turn 0
           >>> thrower = ants.ThrowerAnt()
@@ -390,52 +345,46 @@ test = {
           (20002, 20004)
           """,
           'hidden': False,
-          'locked': False
+          'locked': False,
+          'multiline': False
         },
         {
           'code': r"""
           >>> # Adding/Removing QueenAnt with Container
           >>> place = gamestate.places['tunnel_0_3']
-          >>> queen = ants.QueenAnt()
-          >>> impostor = ants.QueenAnt()
+          >>> queen = ants.QueenAnt.construct(gamestate)
           >>> container = ants.TankAnt()
           >>> place.add_insect(container)
-          >>> place.add_insect(impostor)
-          >>> impostor.action(gamestate)
           >>> place.ant is container
           True
           >>> container.place is place
           True
-          >>> container.contained_ant is None
-          True
-          >>> impostor.place is None
+          >>> container.ant_contained is None
           True
           >>> place.add_insect(queen)
           >>> place.remove_insect(queen)
-          >>> container.contained_ant is queen
+          >>> container.ant_contained is queen
           True
           >>> queen.place is place
           True
           >>> queen.action(gamestate) # should not error
           """,
           'hidden': False,
-          'locked': False
+          'locked': False,
+          'multiline': False
         },
         {
           'code': r"""
           >>> # test proper call to death callback
           >>> original_death_callback = ants.Insect.death_callback
           >>> ants.Insect.death_callback = lambda x: print("insect died")
-          >>> real = ants.QueenAnt()
-          >>> impostor = ants.QueenAnt()
+          >>> real = ants.QueenAnt.construct(gamestate)
           >>> gamestate.places['tunnel_0_2'].add_insect(real)
-          >>> gamestate.places['tunnel_0_3'].add_insect(impostor)
-          >>> impostor.action(gamestate)
-          insect died
           >>> ants.Insect.death_callback = original_death_callback
           """,
           'hidden': False,
-          'locked': False
+          'locked': False,
+          'multiline': False
         },
         {
           'code': r"""
@@ -444,7 +393,8 @@ test = {
           True
           """,
           'hidden': False,
-          'locked': False
+          'locked': False,
+          'multiline': False
         }
       ],
       'scored': True,
@@ -454,7 +404,7 @@ test = {
       >>> beehive = ants.Hive(ants.AssaultPlan())
       >>> dimensions = (2, 9)
       >>> gamestate = ants.GameState(None, beehive, ants.ant_types(),
-      ...         ants.dry_layout, dimensions)
+      ...         ants.dry_layout, dimensions, food=20)
       >>> #
       """,
       'teardown': '',
