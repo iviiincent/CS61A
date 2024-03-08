@@ -57,6 +57,7 @@ class Insect:
     """An Insect, the base class of Ant and Bee, has health and a Place."""
 
     damage = 0
+    is_watersafe = False
     # ADD CLASS ATTRIBUTES HERE
 
     def __init__(self, health, place=None):
@@ -109,6 +110,7 @@ class Ant(Insect):
 
     implemented = False  # Only implemented Ant classes should be instantiated
     food_cost = 0
+    is_buffed = False
     # ADD CLASS ATTRIBUTES HERE
 
     def __init__(self, health=1):
@@ -157,6 +159,9 @@ class Ant(Insect):
         """Double this ants's damage, if it has not already been buffed."""
         # BEGIN Problem EC
         "*** YOUR CODE HERE ***"
+        if self.is_buffed is False:
+            self.is_buffed = True
+            self.damage *= 2
         # END Problem EC
 
 
@@ -419,17 +424,27 @@ class Water(Place):
         its health to 0."""
         # BEGIN Problem 10
         "*** YOUR CODE HERE ***"
+        super().add_insect(insect)
+        if insect.is_watersafe is False:
+            insect.reduce_health(insect.health)
         # END Problem 10
 
 
 # BEGIN Problem 11
 # The ScubaThrower class
+class ScubaThrower(ThrowerAnt):
+    name = "Scuba"
+    food_cost = 6
+    implemented = True
+    is_watersafe = True
+
+
 # END Problem 11
 
 # BEGIN Problem EC
 
 
-class QueenAnt(Ant):  # You should change this line
+class QueenAnt(ScubaThrower):  # You should change this line
     # END Problem EC
     """The Queen of the colony. The game is over if a bee enters her place."""
 
@@ -437,13 +452,18 @@ class QueenAnt(Ant):  # You should change this line
     food_cost = 7
     # OVERRIDE CLASS ATTRIBUTES HERE
     # BEGIN Problem EC
-    implemented = False  # Change to True to view in the GUI
+    implemented = True  # Change to True to view in the GUI
+    true_queen = True
     # END Problem EC
 
     def __init__(self, health=1):
         # BEGIN Problem EC
         "*** YOUR CODE HERE ***"
-        # END Problem EC
+        super().__init__(health)
+        self.true_queen = QueenAnt.true_queen
+        QueenAnt.true_queen = False
+
+    # END Problem EC
 
     def action(self, gamestate):
         """A queen ant throws a leaf, but also doubles the damage of ants
@@ -453,6 +473,21 @@ class QueenAnt(Ant):  # You should change this line
         """
         # BEGIN Problem EC
         "*** YOUR CODE HERE ***"
+        if self.true_queen:
+            super().action(gamestate)
+        else:
+            self.reduce_health(self.health)
+            return
+
+        place = self.place.exit
+        while place:
+            ant = place.ant
+            if ant:
+                ant.buff()
+                if ant.is_container() and ant.contained_ant:
+                    ant.contained_ant.buff()
+            place = place.exit
+
         # END Problem EC
 
     def reduce_health(self, amount):
@@ -461,7 +496,15 @@ class QueenAnt(Ant):  # You should change this line
         """
         # BEGIN Problem EC
         "*** YOUR CODE HERE ***"
+        if self.true_queen and self.health <= amount:
+            bees_win()
+        else:
+            super().reduce_health(amount)
         # END Problem EC
+
+    def remove_from(self, place):
+        if self.true_queen is False:
+            super().remove_from(place)
 
 
 class AntRemover(Ant):
@@ -479,6 +522,7 @@ class Bee(Insect):
 
     name = "Bee"
     damage = 1
+    is_watersafe = True
     # OVERRIDE CLASS ATTRIBUTES HERE
 
     def sting(self, ant):
