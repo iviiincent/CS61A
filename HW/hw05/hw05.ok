@@ -1,6 +1,6 @@
 {
     "name": "Homework 5",
-    "endpoint": "cal/cs61a/sp21/hw05",
+    "endpoint": "ucb/cs61a/sp24/hw05",
     "src": [
         "hw05.py"
     ],
@@ -9,14 +9,15 @@
         "tests/*.py": "ok_test"
     },
     "default_tests": [
-        "VendingMachine",
-        "store_digits",
-        "path_yielder"
+        "hailstone",
+        "merge",
+        "yield_paths"
     ],
     "protocols": [
         "restore",
         "file_contents",
         "analytics",
+        "help",
         "unlock",
         "grading",
         "backup"
