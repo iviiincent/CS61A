@@ -43,7 +43,7 @@ test = {
           'question': 'Where do Ant subclasses inherit the action method from?'
         },
         {
-          'answer': 'c3962b43bab9946b4984107f5e53e9e7',
+          'answer': 'Nothing',
           'choices': [
             'Nothing',
             'Throw a leaf at the nearest Bee',
@@ -51,7 +51,7 @@ test = {
             'Reduce the health of all Bees in its place'
           ],
           'hidden': False,
-          'locked': True,
+          'locked': False,
           'multiline': False,
           'question': r"""
           If a subclass of Ant does not override the action method, what is the

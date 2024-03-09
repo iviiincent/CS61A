@@ -103,9 +103,11 @@ class Ant(Insect):
     food_cost = 0
     is_container = False
     # ADD CLASS ATTRIBUTES HERE
+    blocks_path = True
 
     def __init__(self, health=1):
         super().__init__(health)
+        self.doubled = False
 
     def can_contain(self, other):
         return False
@@ -145,6 +147,9 @@ class Ant(Insect):
         """Double this ants's damage, if it has not already been doubled."""
         # BEGIN Problem 12
         "*** YOUR CODE HERE ***"
+        if self.doubled is False:
+            self.doubled = True
+            self.damage *= 2
         # END Problem 12
 
 
@@ -421,6 +426,9 @@ class ScubaThrower(ThrowerAnt):
     is_waterproof = True
     implemented = True
 
+    def __init__(self, health=1):
+        super().__init__(health)
+
 
 # END Problem 11
 
@@ -432,14 +440,26 @@ class QueenAnt(ThrowerAnt):
     food_cost = 7
     # OVERRIDE CLASS ATTRIBUTES HERE
     # BEGIN Problem 12
-    implemented = False  # Change to True to view in the GUI
+    implemented = True  # Change to True to view in the GUI
     # END Problem 12
+
+    def __init__(self, health=1):
+        super().__init__(health)
 
     def action(self, gamestate):
         """A queen ant throws a leaf, but also doubles the damage of ants
         in her tunnel.
         """
         # BEGIN Problem 12
+        super().action(gamestate)
+        place = self.place.exit
+
+        while place:
+            if place.ant:
+                place.ant.double()
+                if place.ant.is_container and place.ant.ant_contained:
+                    place.ant.ant_contained.double()
+            place = place.exit
         "*** YOUR CODE HERE ***"
         # END Problem 12
 
@@ -449,6 +469,9 @@ class QueenAnt(ThrowerAnt):
         """
         # BEGIN Problem 12
         "*** YOUR CODE HERE ***"
+        super().reduce_health(amount)
+        if self.health <= 0:
+            ants_lose()
         # END Problem 12
 
 
@@ -466,13 +489,17 @@ class NinjaAnt(Ant):
     damage = 1
     food_cost = 5
     # OVERRIDE CLASS ATTRIBUTES HERE
+    blocks_path = False
     # BEGIN Problem Optional 1
-    implemented = False  # Change to True to view in the GUI
+    implemented = True  # Change to True to view in the GUI
     # END Problem Optional 1
 
     def action(self, gamestate):
         # BEGIN Problem Optional 1
         "*** YOUR CODE HERE ***"
+        place = self.place
+        for b in self.place.bees[:]:
+            b.reduce_health(self.damage)
         # END Problem Optional 1
 
 
@@ -486,9 +513,10 @@ class LaserAnt(ThrowerAnt):
 
     name = "Laser"
     food_cost = 10
+    damage = 2
     # OVERRIDE CLASS ATTRIBUTES HERE
     # BEGIN Problem Optional 2
-    implemented = False  # Change to True to view in the GUI
+    implemented = True  # Change to True to view in the GUI
     # END Problem Optional 2
 
     def __init__(self, health=1):
@@ -497,12 +525,30 @@ class LaserAnt(ThrowerAnt):
 
     def insects_in_front(self):
         # BEGIN Problem Optional 2
-        return {}
+        insects = {}
+        place = self.place
+        if place.ant is not self:
+            insects[place.ant] = 0
+
+        place = place.entrance
+        dis = 1
+        while place.is_hive is False:
+            if place.ant:
+                insects[place.ant] = dis
+                if place.ant.is_container and place.ant.ant_contained:
+                    insects[place.ant.ant_contained] = dis
+            for b in place.bees:
+                insects[b] = dis
+            place = place.entrance
+            dis += 1
+
+        return insects
         # END Problem Optional 2
 
     def calculate_damage(self, distance):
         # BEGIN Problem Optional 2
-        return 0
+        cur_damage = self.damage - 0.25 * distance - self.insects_shot / 16
+        return cur_damage if cur_damage >= 0 else 0
         # END Problem Optional 2
 
     def action(self, gamestate):
@@ -539,7 +585,7 @@ class Bee(Insect):
         """Return True if this Bee cannot advance to the next Place."""
         # Special handling for NinjaAnt
         # BEGIN Problem Optional 1
-        return self.place.ant is not None
+        return self.place.ant and self.place.ant.blocks_path is True
         # END Problem Optional 1
 
     def action(self, gamestate):
