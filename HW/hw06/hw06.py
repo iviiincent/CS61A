@@ -111,6 +111,18 @@ def store_digits(n):
     """
     "*** YOUR CODE HERE ***"
 
+    def store(digits):
+        if digits == []:
+            return Link.empty
+        return Link(digits[len(digits) - 1], store(digits[0 : len(digits) - 1]))
+
+    number = n
+    digits = []
+    while number > 0:
+        digits.append(number % 10)
+        number //= 10
+    return store(digits)
+
 
 def deep_map_mut(func, lnk):
     """Mutates a deep link lnk by replacing each item found with the
@@ -133,6 +145,14 @@ def deep_map_mut(func, lnk):
     """
     "*** YOUR CODE HERE ***"
 
+    if not lnk:
+        return lnk
+    elif isinstance(lnk, int):
+        return func(lnk)
+    lnk.first = deep_map_mut(func, lnk.first)
+    lnk.rest = deep_map_mut(func, lnk.rest)
+    return lnk
+
 
 def two_list(vals, counts):
     """
@@ -153,6 +173,22 @@ def two_list(vals, counts):
     Link(1, Link(1, Link(3, Link(3, Link(2)))))
     """
     "*** YOUR CODE HERE ***"
+
+    def make_list(val, count):
+        """Returns a LINK, length of COUNT with same VAL."""
+        head = Link(val)
+        tail = head
+        for _ in range(count - 1):
+            tail.rest = Link(val)
+            tail = tail.rest
+        return head, tail
+
+    if not vals:
+        return Link.empty
+    val, count = vals[0], counts[0]
+    head, tail = make_list(val, count)
+    tail.rest = two_list(vals[1:], counts[1:])
+    return head
 
 
 class Link:
