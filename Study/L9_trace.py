@@ -1,9 +1,7 @@
 def trace1(f):
     def traced(x):
-        print("-> ", x)
-        r = f(x)
-        print("<- ", r)
-        return r
+        print(f"Calling {f} on argument {x}")
+        return f(x)
 
     return traced
 
